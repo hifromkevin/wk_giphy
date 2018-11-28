@@ -1,0 +1,154 @@
+#!/bin/bash
+npm init
+npm i -S react react-dom express path font-awesome react-fontawesome
+npm i -D @babel/core @babel/preset-env @babel/preset-react babel-loader css-loader file-loader node-sass sass-loader style-loader webpack webpack-cli url-loader
+mkdir client server 
+cd client
+mkdir src src/components src/libraries dist dist/styles
+cd dist
+touch index.html
+echo '<!DOCTYPE html>' >> index.html
+echo '<html>' >> index.html
+echo '<head>' >> index.html
+echo '  <title>Title Goes Here</title>' >> index.html
+echo '</head>' >> index.html
+echo '<body>' >> index.html
+echo '  <div id="app"></div>' >> index.html
+echo '' >> index.html
+echo '  <script type="text/javascript" src="bundle.js"></script>' >> index.html
+echo '</body>' >> index.html
+echo '</html>' >> index.html
+cd styles
+touch style.sass
+echo "//SAMPLE SASS FILE" >> style.sass
+echo "" >> style.sass
+echo "/***************/" >> style.sass
+echo "/*** IMPORTS ***/" >> style.sass
+echo "/***************/" >> style.sass
+echo "" >> style.sass
+echo "/*****************/" >> style.sass
+echo "/*** VARIABLES ***/" >> style.sass
+echo "/*****************/" >> style.sass
+echo "" >> style.sass
+echo '$white: #fff' >> style.sass
+echo '$black-text: #313131' >> style.sass
+echo '$orange: #f90' >> style.sass
+echo '$green: #090' >> style.sass
+echo '$blue: #009' >> style.sass
+echo "" >> style.sass
+echo "/****************/" >> style.sass
+echo "/***  RESETS  ***/" >> style.sass
+echo "/****************/" >> style.sass
+echo "" >> style.sass
+echo "*" >> style.sass
+echo "  margin: 0" >> style.sass
+echo "  padding: 0" >> style.sass
+echo "" >> style.sass
+echo "/****************/" >> style.sass
+echo "/***  CUSTOM  ***/" >> style.sass
+echo "/****************/" >> style.sass
+echo "  " >> style.sass
+echo ".main" >> style.sass
+echo '  background: $green' >> style.sass
+echo "  &__heading" >> style.sass
+echo '    color: $orange' >> style.sass
+echo "  &__text" >> style.sass
+echo '    color: $black-text' >> style.sass
+echo "  &__list" >> style.sass
+echo '    color: $blue' >> style.sass
+echo '    list-style-type: circle' >> style.sass
+echo '    margin-left: 2%' >> style.sass
+echo "  &__listItem" >> style.sass
+echo '    margin-left: 2%' >> style.sass
+cd ../../src
+touch index.jsx
+echo "import React from 'react';" >> index.jsx
+echo "import ReactDOM from 'react-dom';" >> index.jsx
+echo "" >> index.jsx
+echo "import App from './components/App.jsx';" >> index.jsx
+echo "import '../dist/styles/style.sass';" >> index.jsx
+echo "import 'font-awesome/css/font-awesome.css';" >> index.jsx
+echo "" >> index.jsx
+echo "ReactDOM.render(<App />, document.getElementById('app'));" >> index.jsx
+cd components
+touch App.jsx
+echo "import React, { Component } from 'react';" >> App.jsx
+echo "import FontAwesome from 'react-fontawesome';" >> App.jsx
+echo "" >> App.jsx
+echo "import MyComponent from './MyComponent.jsx';" >> App.jsx
+echo "" >> App.jsx
+echo "export default class App extends Component {" >> App.jsx
+echo "	constructor(props) {" >> App.jsx
+echo "		super(props);" >> App.jsx
+echo "" >> App.jsx
+echo "		this.state = {" >> App.jsx
+echo "			abilities: ['Access to state', 'Utilize components', 'Use FontAwesome and SASS']" >> App.jsx
+echo "		}" >> App.jsx
+echo "	}" >> App.jsx
+echo "" >> App.jsx
+echo '	render() {' >> App.jsx
+echo '		return (<div className="main">' >> App.jsx
+echo '			<h1 className="main__heading">Congratulations! <FontAwesome name="star" /></h1>' >> App.jsx
+echo '			<p className="main__text">You now have a React application! You can:</p>' >> App.jsx
+echo '			<ul className="main__list">{this.state.abilities.map((ability, i) => {' >> App.jsx
+echo '				return <MyComponent key={i} ability={ability} />' >> App.jsx
+echo '			})}</ul>' >> App.jsx
+echo '' >> App.jsx
+echo '			<p><em>To change the styles, go to client > dist > styles > style.sass </em></p>' >> App.jsx
+echo '		</div>)' >> App.jsx
+echo '	}' >> App.jsx
+echo '}' >> App.jsx
+touch MyComponent.jsx
+echo "import React from 'react';" >> MyComponent.jsx
+echo "" >> MyComponent.jsx
+echo "const MyComponent = ({ ability }) => (" >> MyComponent.jsx
+echo "	<li>{ability}</li>" >> MyComponent.jsx
+echo ")" >> MyComponent.jsx
+echo "" >> MyComponent.jsx
+echo "export default MyComponent;" >> MyComponent.jsx
+cd ../../../server
+touch index.js
+echo "const express = require('express');" >> index.js
+echo "const app = express();" >> index.js
+echo "const port = 3005;" >> index.js
+echo "" >> index.js
+echo "app.use(express.static(__dirname + '/../client/dist'));" >> index.js
+echo "" >> index.js
+echo 'app.listen(port, () => console.log(`Listening on port ${port}!`));' >> index.js
+cd ..
+touch webpack.config.js
+echo "const path = require('path');" >> webpack.config.js
+echo "const DIST_DIR = path.join(__dirname, '/client/dist'); " >> webpack.config.js
+echo "const SRC_DIR = path.join(__dirname, '/client/src');" >> webpack.config.js
+echo "" >> webpack.config.js
+echo "module.exports = {" >> webpack.config.js
+echo "	mode: 'development'," >> webpack.config.js
+echo '	entry: `${SRC_DIR}/index.jsx`,' >> webpack.config.js
+echo "	output: {" >> webpack.config.js
+echo "		path: DIST_DIR," >> webpack.config.js
+echo "		filename: 'bundle.js'" >> webpack.config.js
+echo "	}," >> webpack.config.js
+echo "	module: {" >> webpack.config.js
+echo "		rules: [" >> webpack.config.js
+echo "			{" >> webpack.config.js
+echo '				test: /\.jsx$/,' >> webpack.config.js
+echo "				loader: 'babel-loader'," >> webpack.config.js
+echo "				query: {" >> webpack.config.js
+echo "					presets: ['@babel/preset-env', '@babel/preset-react']" >> webpack.config.js
+echo "				}" >> webpack.config.js
+echo "			}," >> webpack.config.js
+echo "			{" >> webpack.config.js
+echo '				test: /\.sass$/,' >> webpack.config.js
+echo "				loaders: ['style-loader','css-loader','sass-loader']" >> webpack.config.js
+echo "			}," >> webpack.config.js
+echo "      {" >> webpack.config.js
+echo '        test: /\.css$/,' >> webpack.config.js
+echo "        loaders: ['style-loader','css-loader','sass-loader']" >> webpack.config.js
+echo "      }," >> webpack.config.js
+echo "      {" >> webpack.config.js
+echo '        test: /\.(png|woff|woff2|eot|ttf|svg)$/,' >> webpack.config.js
+echo "        loader: 'url-loader?limit=100000'" >> webpack.config.js
+echo "      }" >> webpack.config.js
+echo "		]" >> webpack.config.js
+echo "	}" >> webpack.config.js
+echo "};" >> webpack.config.js
