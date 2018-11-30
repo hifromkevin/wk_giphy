@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import FontAwesome from 'react-fontawesome';
 
 import Search from './Search.jsx';
+import Gif from './Gif.jsx';
 
 const API_KEY = 'dc6zaTOxFJmzC';
 
@@ -29,13 +30,14 @@ export default class App extends Component {
 		let url;
 		console.log('QUERY', typeOfQuery)
 		if (typeOfQuery === 'search') {
-			url = `http://api.giphy.com/v1/gifs/search?q=${term}&api_key=${API_KEY}&limit=2`;
+			url = `http://api.giphy.com/v1/gifs/search?q=${term}&api_key=${API_KEY}&limit=10`;
 			this.setState({
 				isSearch: true
 			})
 		} else {
-			url = `http://api.giphy.com/v1/gifs/trending?api_key=${API_KEY}&limit=5`;
+			url = `http://api.giphy.com/v1/gifs/trending?api_key=${API_KEY}&limit=10`;
 		}
+
 console.log(url)
 		fetch(url)
 			.then(response => response.json())
@@ -66,16 +68,14 @@ console.log(url)
 			return (
 				<div>
 				  <Search getGifs={this.getGifs} />
+				  <div className="d-flex flex-wrap">
 					{this.state.gifs.map(gif => {
 						return (
-							<div key={gif.id} >
-								<img src={gif.images.downsized_medium.url} alt={gif.title} />
-								<p>{gif.title}, {gif.rating}, {gif.import_datetime}</p>
-								<p>{gif.username}</p>
-							</div>
+							<Gif gif={gif} key={gif.id} />
 						)
 					})
 					}
+					</div>
 
 				{ this.isSearchMode() }
 				</div>
