@@ -3,6 +3,7 @@ import FontAwesome from 'react-fontawesome';
 
 import Search from './Search.jsx';
 import Gif from './Gif.jsx';
+import Modal from './Modal.jsx';
 
 const API_KEY = 'dc6zaTOxFJmzC';
 
@@ -15,11 +16,13 @@ export default class App extends Component {
 			rendered: false,
 			initialGifs: [],
 			gifs: [],
-			isSearch: false
+			isSearch: false,
+			selectedGif: undefined
 		}
 
 		this.getGifs = this.getGifs.bind(this);
 		this.isSearchMode = this.isSearchMode.bind(this);
+		this.handleGifClick = this.handleGifClick.bind(this);
 	}
 
 	componentWillMount() {
@@ -63,21 +66,29 @@ console.log(url)
 		}
 	}
 
+	handleGifClick(gif){ 
+		this.setState({
+			selectedGif: gif
+		})
+	}
+
 	render() {
 		if(this.state.rendered) {
 			return (
 				<div>
-				  <Search getGifs={this.getGifs} />
-				  <div className="d-flex flex-wrap">
+					<Search getGifs={this.getGifs} />
+					<div className="d-flex flex-wrap">
 					{this.state.gifs.map(gif => {
 						return (
-							<Gif gif={gif} key={gif.id} />
+							<Gif gif={gif} key={gif.id} handleGifClick={this.handleGifClick} />
 						)
 					})
 					}
 					</div>
 
 				{ this.isSearchMode() }
+				
+				{this.state.selectedGif && <Modal modal={this.state.selectedGif} />}
 				</div>
 			)
 		}

@@ -1,11 +1,16 @@
 import React from 'react';
 
-const Gif = ({gif}) => (
-	<div className="gif__wrapper">
-		<img className="gif__image" src={gif.images.downsized_medium.url} alt={gif.title} />
-		<p>{gif.title}, {gif.rating}, {gif.import_datetime}</p>
-		<p>{gif.username}</p>
-	</div>
+const Gif = ({ gif, handleGifClick }) => (
+	<img 
+		className="gif__image" 
+		data-toggle="modal" 
+		data-target="#gifModal" 
+		src={gif.images.fixed_height.url} 
+		alt={gif.title} 
+		onClick={() => handleGifClick(gif) } 
+		width={gif.images.fixed_height.width}
+		height={gif.images.fixed_height.height}
+	/>
 );
 
 export default Gif;
