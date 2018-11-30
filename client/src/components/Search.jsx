@@ -30,7 +30,7 @@ export default class Search extends Component {
 		return (
 			<div>
 				<form onSubmit={ this.submitting } >
-					<input value={ this.state.term } onChange={ this.changeTerm } /> <button>Search!</button>
+					<input value={ this.state.term } onChange={ this.changeTerm } /> <button className="btn btn-outline-primary">Search!</button>
 				</form>
 			</div>
 		)
